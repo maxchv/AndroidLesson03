@@ -1,0 +1,3 @@
+include ':app:activityresult'
+include ':app'
+rootProject.name = "AndroidLesson03"
