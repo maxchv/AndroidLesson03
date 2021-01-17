@@ -12,8 +12,17 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView mListView;
+    private List<String> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +32,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        mListView = findViewById(R.id.listView);
+        items = new ArrayList<>();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                items);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener((parent, view, position, id) ->
+                Snackbar.make(mListView, position+ ": " + items.get(position), Snackbar.LENGTH_SHORT)
+                .show());
+
+        fab.setOnClickListener(view -> {
+            items.add("item");
+            adapter.notifyDataSetChanged();
         });
     }
 
