@@ -29,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        group = new ArrayList<>();
         studentListView = findViewById(R.id.studentListView);
+        group = new ArrayList<>(StudentData.getStudents());
+        studentListView.setAdapter(new StudentAdapter(this, group));
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
 
