@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fabDelete = findViewById(R.id.fab_delete);
         mListView = findViewById(R.id.listView);
         items = new ArrayList<>();
 
@@ -47,15 +48,30 @@ public class MainActivity extends AppCompatActivity {
                 items);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener((parent, view, position, id) ->
-                Snackbar.make(mListView, position+ ": " + items.get(position), Snackbar.LENGTH_SHORT)
-                .show());
+                Snackbar.make(mListView, position + ": " + items.get(position), Snackbar.LENGTH_SHORT)
+                        .show());
 
-//        int checkedItemPosition = mListView.getCheckedItemPosition();
-        SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
 
         fab.setOnClickListener(view -> {
             items.add("item " + (items.size() + 1));
             adapter.notifyDataSetChanged();
+        });
+
+        fabDelete.setOnClickListener(view -> {
+//        int checkedItemPosition = mListView.getCheckedItemPosition();
+            SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+            StringBuilder msg = new StringBuilder();
+            for (int i = 0; i < checkedItemPositions.size(); i++) {
+                int key = checkedItemPositions.keyAt(i);
+                if (checkedItemPositions.get(key)) {
+                    msg.append(items.get(i)).append(" ");
+                }
+            }
+            if(msg.length() == 0) return;
+            Snackbar.make(mListView, msg.toString(), Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Close", v -> {
+
+                    }).show();
         });
     }
 
