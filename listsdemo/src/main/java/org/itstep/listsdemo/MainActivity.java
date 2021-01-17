@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.SparseBooleanArray;
 import android.view.View;
 
 import android.view.Menu;
@@ -35,16 +36,25 @@ public class MainActivity extends AppCompatActivity {
         mListView = findViewById(R.id.listView);
         items = new ArrayList<>();
 
+//        mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+//        mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
+//                android.R.layout.simple_list_item_1,
+//                android.R.layout.simple_list_item_single_choice,
+                android.R.layout.simple_list_item_multiple_choice,
                 items);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener((parent, view, position, id) ->
                 Snackbar.make(mListView, position+ ": " + items.get(position), Snackbar.LENGTH_SHORT)
                 .show());
 
+//        int checkedItemPosition = mListView.getCheckedItemPosition();
+        SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+
         fab.setOnClickListener(view -> {
-            items.add("item");
+            items.add("item " + (items.size() + 1));
             adapter.notifyDataSetChanged();
         });
     }
