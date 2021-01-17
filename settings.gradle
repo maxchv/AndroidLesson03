@@ -1,3 +1,4 @@
+include ':customlist'
 include ':listsdemo'
 include ':app:activityresult'
 include ':app'
